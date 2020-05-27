@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "types": [
+      "react"
+    ],
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "rootDir": "./src/",
+    "outDir": "../ywn-modules/lib/",
+    "jsx": "react",
+    "lib": [
+      "esnext",
+    ],
+  },
+  "include": [
+    "src/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "composite": true,
+  "allowUnreachableCode": false,
+  "allowUnusedLabels": false,
+  "esModuleInterop": true,
+  "forceConsistentCasingInFileNames": true,
+  "module": "esnext",
+  "moduleResolution": "node",
+  "noFallthroughCasesInSwitch": true,
+  "noImplicitReturns": true,
+  "noImplicitUseStrict": false,
+  "noStrictGenericChecks": false,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "resolveJsonModule": true,
+  "strict": true,
+  "target": "esnext"
+}
