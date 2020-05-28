@@ -29,6 +29,12 @@ npm install --save ywn
 ```
 
 
+#### Grant Permission to External storage
+
+[rn-fetch-blob](https://github.com/joltup/rn-fetch-blob#readme)
+
+
+
 ## License
 
 MIT

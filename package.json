@@ -1,6 +1,6 @@
 {
   "name": "ywn",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Display layouts on devices",
   "author": {
     "name": "tuantvk<tuanhanhphuc123@gmail.com>",
@@ -24,18 +24,24 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/index.js",
-  "react-native": "src/index.tsx",
-  "source": "src/index.tsx",
+  "main": "./lib/index.js",
   "types": "src/types/index.d.ts",
-  "devDependencies": {
+  "files": [
+    "lib"
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
+  "dependencies": {
     "@react-native-community/picker": "^1.6.0",
+    "react-native-view-shot": "^3.1.2",
+    "rn-fetch-blob": "^0.12.0"
+  },
+  "devDependencies": {
     "@types/react": "^16.9.35",
     "@types/react-native": "^0.62.11",
     "react": "16.11.0",
     "react-native": "0.62.2",
-    "react-native-view-shot": "^3.1.2",
-    "rn-fetch-blob": "^0.12.0",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
