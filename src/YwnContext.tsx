@@ -25,6 +25,7 @@ export type YwnContextProps = {
   navigation?: any;
   route?: any;
   screens?: string[];
+  folder?: string;
   debug?: boolean;
   children: React.ReactNode;
 }
@@ -34,6 +35,7 @@ const YwnContext = ({
   navigation,
   route,
   screens,
+  folder,
   debug,
   children,
 }: YwnContextProps) => {
@@ -63,7 +65,7 @@ const YwnContext = ({
   const onCapture = React.useCallback((screen: string | undefined = 'Untitled') => {
 
     const _onCapture = async () => {
-      const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/Ywn/${platform}/${screen}${Date.now()}.png`;
+      const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/${folder}/${platform}/${screen}${Date.now()}.png`;
       try {
         let data = await captureRef(refViewShot);
         await RNFetchBlob.fs.writeFile(
@@ -143,6 +145,7 @@ const YwnContext = ({
 
 YwnContext.defaultProps = {
   debug: true,
+  folder: 'Ywn',
 }
 
 export default YwnContext;
