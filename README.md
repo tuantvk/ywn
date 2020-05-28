@@ -77,13 +77,13 @@ function App() {
 
 ### Props
 
-| Props       | Description                             | Default | PropTypes |
-| ----------- | ----------- | -----------               | ------- | --------- |
-| navigation  | props react navigation                  |         | any       |
-| route       | props react navigation                  |         | any       |
-| screens     | path all screen for Capture All screen  |  []     | string[]  |
-| folder      | name folder save in Download            |  Ywn    | string    |
-| debug       | mode debug                              |  true   | boolean   |
+| Props       | Description                             | Default     | PropTypes   |
+| ----------- | -----------                             | ----------- | ----------- |
+| navigation  | props react navigation                  |             | any         |
+| route       | props react navigation                  |             | any         |
+| screens     | path all screen for Capture All screen  |  []         | string[]    |
+| folder      | name folder save in Download            |  Ywn        | string      |
+| debug       | mode debug                              |  true       | boolean     |
 
 
 
