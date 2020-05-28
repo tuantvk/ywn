@@ -62,26 +62,20 @@ const YwnContext = ({
     changeIndex(index);
   }
 
-  const onCapture = React.useCallback((screen: string | undefined = 'Untitled') => {
-
-    const _onCapture = async () => {
-      const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/${folder}/${platform}/${screen}${Date.now()}.png`;
-      try {
-        let data = await captureRef(refViewShot);
-        await RNFetchBlob.fs.writeFile(
-          PATH_TO_WRITE,
-          data,
-          'uri'
-        );
-        releaseCapture(data);
-      } catch (error) {
-        console.warn("Oops, snapshot failed", error)
-      }
+  const onCapture = async (screen: string | undefined = 'Untitled') => {
+    const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/${folder}/${platform}/${screen}${Date.now()}.png`;
+    try {
+      let data = await captureRef(refViewShot);
+      await RNFetchBlob.fs.writeFile(
+        PATH_TO_WRITE,
+        data,
+        'uri'
+      );
+      releaseCapture(data);
+    } catch (error) {
+      console.warn("Oops, snapshot failed", error)
     }
-
-    _onCapture();
-
-  }, []);
+  }
 
 
   const onCaptureAll = async () => {
