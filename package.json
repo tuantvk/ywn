@@ -1,6 +1,6 @@
 {
   "name": "ywn",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Display layouts on devices",
   "author": {
     "name": "tuantvk<tuanhanhphuc123@gmail.com>",
@@ -21,6 +21,9 @@
     "issues": "https://github.com/tuantvk/ywn/issues"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/index.js",
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
