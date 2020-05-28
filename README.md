@@ -29,9 +29,61 @@ npm install --save ywn
 ```
 
 
+Install dependencies:
+
+```bash
+yarn add -D react-native-view-shot rn-fetch-blob
+# or
+npm install --save-dev react-native-view-shot rn-fetch-blob
+```
+
+
 #### Grant Permission to External storage
 
-[rn-fetch-blob](https://github.com/joltup/rn-fetch-blob#readme)
+View on [rn-fetch-blob](https://github.com/joltup/rn-fetch-blob#readme)
+
+
+
+### Example
+
+```js
+...
+import { YwnContext } from 'ywn';
+
+const Stack = createStackNavigator();
+
+const Screens = props => (
+  <YwnContext {...props} folder="test" screens={['Home', 'Details', 'Profiles']}>
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Details" component={Details} />
+      <Stack.Screen name="Profiles" component={Profiles} />
+    </Stack.Navigator>
+  </YwnContext>
+);
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Screens" component={Screens} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+```
+
+
+
+### Props
+
+| Props       | Description                             | Default | PropTypes |
+| ----------- | ----------- | -----------               | ------- | --------- |
+| navigation  | props react navigation                  |         | any       |
+| route       | props react navigation                  |         | any       |
+| screens     | path all screen for Capture All screen  |  []     | string[]  |
+| folder      | name folder save in Download            |  Ywn    | string    |
+| debug       | mode debug                              |  true   | boolean   |
 
 
 

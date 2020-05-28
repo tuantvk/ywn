@@ -22,8 +22,8 @@ import { asyncForEach } from './utils';
 
 
 export type YwnContextProps = {
-  navigation?: any;
-  route?: any;
+  navigation: any;
+  route: any;
   screens?: string[];
   folder?: string;
   debug?: boolean;
@@ -114,9 +114,12 @@ const YwnContext = ({
       <StatusBar hidden />
       <View style={styles.platform}>
         <View style={styles.btnControl}>
-          <TouchableOpacity activeOpacity={.7} onPress={onCaptureAll} style={styles.captureAll}>
-            <Text style={styles.textCapture}>Capture All</Text>
-          </TouchableOpacity>
+          {screens && screens.length > 0 ?
+            <TouchableOpacity activeOpacity={.7} onPress={onCaptureAll} style={styles.captureAll}>
+              <Text style={styles.textCapture}>Capture All</Text>
+            </TouchableOpacity>
+            : null
+          }
           <TouchableOpacity activeOpacity={.7} onPress={() => onCapture('')} style={styles.capture}>
             <Text style={styles.textCapture}>Capture</Text>
           </TouchableOpacity>
@@ -131,7 +134,7 @@ const YwnContext = ({
         <Text style={styles.deviceName}>{device.name}</Text>
         <ViewShot ref={refViewShot}>
           <View
-            key={route.name}
+            key={route ? route.name : Date.now().toString()}
             style={[styles.devices, getDimensions(device.dimensions)]}
           >
             {children}
