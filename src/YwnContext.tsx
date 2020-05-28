@@ -2,33 +2,43 @@ import * as React from 'react';
 import {
   StatusBar,
   View,
-  StyleSheet,
   Text,
   TouchableOpacity,
   PermissionsAndroid,
 } from 'react-native';
 import ViewShot, {
   captureRef,
+  releaseCapture,
 } from "react-native-view-shot";
 import RNFetchBlob from 'rn-fetch-blob';
 
+import styles from './YwnStyles';
 import { YwnPicker } from './YwnPicker';
 import {
   RESOLUTIONS,
 } from './RESOLUTIONS';
 import getDimensions from './getDimensions';
+import { asyncForEach } from './utils';
 
 
 export type YwnContextProps = {
+  navigation?: any;
+  route?: any;
+  screens?: string[];
+  debug?: boolean;
   children: React.ReactNode;
 }
 
 
 const YwnContext = ({
+  navigation,
+  route,
+  screens,
+  debug,
   children,
 }: YwnContextProps) => {
   const refViewShot = React.useRef();
-  const [platform, changePlatform] = React.useState<string>('');
+  const [platform, changePlatform] = React.useState<string>(RESOLUTIONS[0].name);
   const [platformIndex, changeIndex] = React.useState<number>(0);
 
 
@@ -50,26 +60,65 @@ const YwnContext = ({
     changeIndex(index);
   }
 
-  const onCapture = () => {
-    const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/Ywn/${platform}/${Date.now()}.jpg`;
-    captureRef(refViewShot)
-      .then(
-        data => {
-          RNFetchBlob.fs.writeFile(PATH_TO_WRITE, data, 'uri')
-        },
-        error => console.error("Oops, snapshot failed", error)
-      );
+  const onCapture = React.useCallback((screen: string | undefined = 'Untitled') => {
+
+    const _onCapture = async () => {
+      const PATH_TO_WRITE = `${RNFetchBlob.fs.dirs.DownloadDir}/Ywn/${platform}/${screen}${Date.now()}.png`;
+      try {
+        let data = await captureRef(refViewShot);
+        await RNFetchBlob.fs.writeFile(
+          PATH_TO_WRITE,
+          data,
+          'uri'
+        );
+        releaseCapture(data);
+      } catch (error) {
+        console.warn("Oops, snapshot failed", error)
+      }
+    }
+
+    _onCapture();
+
+  }, []);
+
+
+  const onCaptureAll = async () => {
+    if (screens && screens.length > 0) {
+      await asyncForEach(screens, async (screen: string) => {
+        await new Promise((resolve, reject) => {
+          let wait = setTimeout(() => {
+            clearTimeout(wait);
+            resolve(navigation.navigate(screen));
+          }, 800);
+        });
+        await new Promise((resolve, reject) => {
+          let wait = setTimeout(() => {
+            clearTimeout(wait);
+            resolve(onCapture(screen));
+          }, 1800);
+        })
+      });
+    }
   }
 
   const device = RESOLUTIONS[platformIndex];
+
+  if (!debug) {
+    return children;
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar hidden />
       <View style={styles.platform}>
-        <TouchableOpacity activeOpacity={.7} onPress={onCapture} style={styles.capture}>
-          <Text style={styles.textCapture}>Capture</Text>
-        </TouchableOpacity>
+        <View style={styles.btnControl}>
+          <TouchableOpacity activeOpacity={.7} onPress={onCaptureAll} style={styles.captureAll}>
+            <Text style={styles.textCapture}>Capture All</Text>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={.7} onPress={() => onCapture('')} style={styles.capture}>
+            <Text style={styles.textCapture}>Capture</Text>
+          </TouchableOpacity>
+        </View>
         <YwnPicker
           data={RESOLUTIONS}
           platform={platform}
@@ -78,8 +127,11 @@ const YwnContext = ({
       </View>
       <View style={styles.content}>
         <Text style={styles.deviceName}>{device.name}</Text>
-        <ViewShot ref={refViewShot} options={{ format: "jpg", quality: 0.9, result: "base64" }}>
-          <View style={[styles.devices, getDimensions(device.dimensions)]}>
+        <ViewShot ref={refViewShot}>
+          <View
+            key={route.name}
+            style={[styles.devices, getDimensions(device.dimensions)]}
+          >
             {children}
           </View>
         </ViewShot>
@@ -89,39 +141,8 @@ const YwnContext = ({
 }
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#222831',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  platform: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  capture: {
-    backgroundColor: '#f37121',
-    paddingVertical: 5,
-    paddingHorizontal: 30,
-    borderRadius: 4,
-  },
-  textCapture: {
-    color: '#fff',
-  },
-  devices: {
-    backgroundColor: '#fff',
-  },
-  deviceName: {
-    color: '#fff',
-    marginBottom: 8,
-  }
-});
+YwnContext.defaultProps = {
+  debug: true,
+}
 
 export default YwnContext;

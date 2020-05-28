@@ -17,7 +17,11 @@ export const YwnPicker = ({
   return (
     <Picker
       selectedValue={platform}
-      style={{ height: 55, width: 260 }}
+      style={{
+        height: 55,
+        width: 260,
+        backgroundColor: '#fff',
+      }}
       onValueChange={onValueChange}
     >
       {data.map(item => (
