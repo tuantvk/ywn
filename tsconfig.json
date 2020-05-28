@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "rootDir": "./src/",
-    "outDir": "../ywn-modules/lib/",
+    "outDir": "./lib/",
     "jsx": "react",
     "lib": [
       "esnext",
